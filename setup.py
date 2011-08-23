@@ -4,7 +4,7 @@ version = '1.0a1'
 
 setup(name='mr.steele',
       version=version,
-      description=""
+      description="",
       long_description=open("README.txt").read() + "\n" +
                        open("CHANGES.txt").read(),
       classifiers=[
@@ -18,13 +18,15 @@ setup(name='mr.steele',
       url='',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['Products'],
+      namespace_packages=['mr'],
       include_package_data=True,
       zip_safe=False,
       install_requires=[
           'setuptools',
           'zest.releaser',
       ],
+      extras_require={
+          'test': ['z3c.testsetup']},
       entry_points={
           'zest.releaser.releaser.after': [
               'dosomething = mr.steele:release.releaseTasks',
