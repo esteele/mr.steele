@@ -12,4 +12,4 @@ Some initial imports:
     >>> import os
     >>> from zest.releaser import utils
     >>> utils.TESTMODE = True
-    >>> import pdb; pdb.set_trace()
+    >>> 
