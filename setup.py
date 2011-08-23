@@ -27,6 +27,6 @@ setup(name='mr.steele',
       ],
       entry_points={
           'zest.releaser.prereleaser.before': [
-              'dosomething = mr.steele:postrelease.postRelease',
+              'dosomething = mr.steele:release.releaseTasks',
               ]},
       )
