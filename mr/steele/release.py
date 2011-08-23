@@ -1,5 +1,5 @@
 import os
-import system
+from zest.releaser.utils import system
 import re
 
 def releaseTasks(data):
@@ -37,3 +37,4 @@ def releaseTasks(data):
     f = open(checkoutsfile, 'w')
     f.write(newCheckoutsTxt)
     f.close()
+    
