@@ -26,7 +26,7 @@ setup(name='mr.steele',
           'zest.releaser',
       ],
       extras_require={
-          'test': ['z3c.testsetup']},
+          'test': ['zest.releaser[test]']},
       entry_points={
           'zest.releaser.releaser.after': [
               'dosomething = mr.steele:release.releaseTasks',
