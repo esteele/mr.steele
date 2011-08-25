@@ -1,6 +1,9 @@
 import os
-from zest.releaser.utils import system
+from zest.releaser.utils import system, ask
 import re
+import logging
+logger = logging.getLogger('mr.steele')
+
 
 def releaseTasks(data):
     
@@ -8,9 +11,10 @@ def releaseTasks(data):
     newVersion = data['version']
 
     # Check out the core development build
-    tagdir = "corebuild"
-    print system("svn co https://svn.plone.org/svn/plone/buildouts/plone-coredev/branches/4.2/ %s" % tagdir)
-    os.chdir(os.path.join(os.getcwd(), tagdir))
+    coredir = "corebuild"
+    print system("svn co https://svn.plone.org/svn/plone/buildouts/plone-coredev/branches/4.2/ %s" % coredir)
+    corepath = os.path.join(os.getcwd(), coredir)
+    os.chdir(corepath)
 
     # Update version
     versionsfile = os.path.join(os.getcwd(),'versions.cfg')
@@ -38,3 +42,13 @@ def releaseTasks(data):
     f.write(newCheckoutsTxt)
     f.close()
     
+    diff_cmd = "svn diff"
+    diff = system(diff_cmd)
+    logger.info("The '%s':\n\n%s\n" % (diff_cmd, diff))
+
+    if ask('OK to commit this?'):
+        commit = system("svn ci versions.cfg checkouts.cfg -m '%s %s released'" % (packageName, newVersion))
+        logger.info(commit)
+        
+    os.chdir('..')
+    os.rmtree(corepath)
