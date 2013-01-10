@@ -4,7 +4,7 @@ version = '1.0a1'
 
 setup(name='mr.steele',
       version=version,
-      description="",
+      description="Plone Core-specific release management tools",
       long_description=open("README.txt").read() + "\n" +
                        open("CHANGES.txt").read(),
       classifiers=[
@@ -13,8 +13,8 @@ setup(name='mr.steele',
         "Programming Language :: Python",
         ],
       keywords='',
-      author='',
-      author_email='',
+      author='Eric Steele',
+      author_email='esteele@plone.org',
       url='',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
@@ -23,12 +23,10 @@ setup(name='mr.steele',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'zest.releaser',
+          'argh'
       ],
-      extras_require={
-          'test': ['zest.releaser[test]']},
-      entry_points={
-          'zest.releaser.releaser.after': [
-              'dosomething = mr.steele.release:releaseTasks',
-              ]},
+      entry_points="""
+      [console_scripts]
+      manage = mr.steele:main
+      """,
       )

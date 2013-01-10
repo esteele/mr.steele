@@ -7,6 +7,25 @@ from tempfile import mkdtemp
 from collections import OrderedDict
 
 
+THIRD_PARTY_PACKAGES = ['Zope2',
+                        'ZODB3',
+                        'txtfilter',
+                        'Products.CMFActionIcons',
+                        'Products.CMFCalendar',
+                        'Products.CMFCore',
+                        'Products.CMFDefault',
+                        'Products.CMFTopic',
+                        'Products.CMFUid',
+                        'Products.DCWorkflow',
+                        'Products.GenericSetup',
+                        'Products.GroupUserFolder',
+                        'Products.PluggableAuthService',
+                        'Products.PluginRegistry',
+                        'Products.ZCatalog']
+
+IGNORED_PACKAGES = ['mr.steele']
+
+
 def getVersion(package_name):
     config = ConfigParser(interpolation=ExtendedInterpolation())
     config.readfp(open('versions.cfg'))
@@ -104,22 +123,6 @@ def release(package, new_version):
     print package, new_version
 
 
-THIRD_PARTY_PACKAGES= ['Zope2',
-                       'ZODB3',
-                       'txtfilter',
-                       'Products.CMFActionIcons',
-                       'Products.CMFCalendar',
-                       'Products.CMFCore',
-                       'Products.CMFDefault',
-                       'Products.CMFTopic',
-                       'Products.CMFUid',
-                       'Products.DCWorkflow',
-                       'Products.GenericSetup',
-                       'Products.GroupUserFolder',
-                       'Products.PluggableAuthService',
-                       'Products.PluginRegistry',
-                       'Products.ZCatalog']
-
 
 @command
 def checkPypi(user):
@@ -177,6 +180,7 @@ def checkPackageForUpdates(package_name):
             # print "Skipped check of %s as it's not a git repo." % package_name
             pass
 
+
 @command
 def checkAllPackagesForUpdates():
     sources = getSources()
@@ -184,9 +188,12 @@ def checkAllPackagesForUpdates():
         checkPackageForUpdates(package_name)
         # print "\n"
 
-parser = ArghParser()
-parser.add_commands([release, checkPypi, checkPackageForUpdates, checkAllPackagesForUpdates])
+
+class Manage(object):
+    def __call__(self, **kwargs):
+        parser = ArghParser()
+        parser.add_commands([release, checkPypi, checkPackageForUpdates, checkAllPackagesForUpdates])
+        parser.dispatch()
 
 
-if __name__ == '__main__':
-    parser.dispatch()
+manage = Manage()
